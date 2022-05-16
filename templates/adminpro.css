@@ -1,0 +1,9 @@
+.hello{
+    display: flex;
+    flex-direction: row;
+    justify-content: center;
+    border: 1;
+    border-block-color: red;
+    font-family:Arial, Helvetica, sans-serif ;
+
+}

@@ -25,12 +25,14 @@ def home(request):
         username = request.POST['username']
         password = request.POST['password']
 
-        
-
         user = authenticate(username=username, password=password)
         if user is not None:
-            login(request, user)
-            return redirect('user_home')
+            if user.is_superuser:
+                messages.info(request, "incorrect password")
+            else:
+
+                login(request, user)
+                return redirect('user_home')
         else:
             messages.info(request, "incorrect password")
             return redirect(home)
@@ -100,7 +102,7 @@ def signout(request):
 @never_cache
 def adminpro(request):
 
-    if 'username' in request.session:
+    if request.user.is_authenticated:
 
         details = User.objects.all()
 
@@ -111,26 +113,27 @@ def adminpro(request):
 
 # admindeletehere
 
-username1 = "adhil"
-password2 = "123"
+
 
 
 def adminprologin(request):
-    if 'username' in request.session:
-        return redirect('adminpro')
 
     if request.method == 'POST':
         username = request.POST['username']
         password = request.POST['password']
 
-        if username1 == username and password2 == password:
-            someadmin = 1
-            if someadmin is not None:
-                request.session['username'] = username
+        user = authenticate(username=username, password=password)
+        if user is not None:
+            if user.is_superuser:
+                login(request, user)
 
                 return redirect('adminpro')
+
+            else:
+                messages.info(request, "you are not an admin")
+
         else:
-                messages.info(request, "incroect credentails")    
+            messages.info(request, "incroect credentails")
 
     return render(request, 'adminprologin.html')
 
@@ -193,8 +196,9 @@ def adduser(request):
 # adminlogout
 def adminprologout(request):
 
-    if 'username' in request.session:
-        request.session.flush()
+    
+    if request.user.is_authenticated:
+        logout(request)
 
     return redirect('adminprologin')
 

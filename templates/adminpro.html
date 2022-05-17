@@ -49,7 +49,7 @@
                     <button type="button" class="btn btn-success " data-bs-toggle="modal"
                         data-bs-target="#exampleModal1">
 
-                        Add User to me
+                        Add User
                     </button>
                 </div>
 
@@ -108,7 +108,7 @@
                 <table class="table align-middle   mb-0 bg-white">
                     <thead class="bg-light">
                         <tr>
-                            
+
                             <th>Name</th>
                             <th>Email</th>
                             <th>Actions</th>
@@ -116,9 +116,10 @@
                     </thead>
                     <tbody>
                         {%for x in details%}
+                        {%if not x.is_superuser%}
                         <tr>
 
-                            
+
                             <td>
 
 
@@ -178,6 +179,7 @@
                             </td>
 
                         </tr>
+                        {%endif%}
                         {%endfor%}
 
                     </tbody>

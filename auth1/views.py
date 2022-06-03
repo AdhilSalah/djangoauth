@@ -137,7 +137,6 @@ def adminprologin(request):
 
     return render(request, 'adminprologin.html')
 
-
 def fundelete(request, pk):
     User.objects.filter(id=pk).delete()
     User.objects.all()
